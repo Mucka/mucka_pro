@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>mucka.pro - życie pewnej krowy</title>
+        <link rel="stylesheet" type="text/css" href="/static/main.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+
+    <body>
+        <header>
+            <div class="topbar">
+                <div class="title">
+                    mucka.pro<span id="tagline"> - historia pewnej krowy</span>
+                </div>
+                <div class="langmenu">
+                    <div class="lang" id="pl">
+                        <a href="/pl/">
+                            PL
+                        </a>
+                    </div>
+                    <div class="lang" id="en">
+                        <a href="/en/">
+                            EN
+                        </a>
+                    </div>
+                    <div class="lang" id="de">
+                        <a href="/de/">
+                            DE
+                        </a>
+                    </div>
+                    <div class="lang" id="cz">
+                        <a href="/cz/">
+                            CZ
+                        </a>
+                    </div>
+                    <div class="lang" id="jp">
+                        <a href="/jp/">
+                            日本
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="menu">
+                <div class="menuitem">
+                    <a href="../news/">
+                        Aktualności
+                    </a>
+                </div>
+                <div class="menuitem">
+                    <a href="../articles/">
+                        Artykuły
+                    </a>
+                </div>
+                <div class="menuitem">
+                    <a href="../projects/">
+                        Projekty
+                    </a>
+                </div>
+                <div class="menuitem">
+                    <a href="../wiki/">
+                        Wiki
+                    </a>
+                </div>
+                <div class="menuitem">
+                    <a href="../repository/">
+                        Repo
+                    </a>
+                </div>
+            </div>
+        </header>
+        <section>
+            <h1>Droga do internetu</h2>
+	    <h2>Prosta statyczna strona internetowa.</h1>
+	    <p>Wiele lat temu wpadłem w pułapkę. Chciałem uruchomić prosty
+	    osobisty serwis internetowy. Usiadałem do pracy. Chciałem wypuścić
+	    dopiero gotowy dopracowany produkt. Wymagania rosły szybciej niż
+	    postępowały prace. Z powodu braku perspektyw porzucałem projekt.
+	    Powtórzyłem kilkukrotnie, znany temat.</p>
+
+	    <p>Tym razem postanowiłem zmienić podejście. Wypuściłem pierwszą
+	    wersję tak szybko jak to tylko było możliwe. Wcześniej porzucałem
+	    projekty zanim w ogóle prace dochodziły do interfejsu użytkownika.
+	    Tym razem porzuciłem jakąkolwiek logikę serwerową czy kliencką i
+	    skupiłem się jedynie na interfejsie użytkownika. Bardzo
+	    minimalistycznym interfejsie użytkownika.</p>
+
+	    <p>Miałem do tej pory bardzo mało wspólnego z technologiami
+	    internetowymi. Żeby uniknąć niepotrzebnego komplikowania pracy,
+	    postanowiłem całkowicie zrezygnować z zewnętrznych bibliotek.
+	    Dzięki temu efekt jest krótki, zwięzły i mało skomplikowany.</p>
+
+	    <p>W dużym skrócie statyczna strona internetowa to taka w której
+	    wszystkie elementy (podstrony, arkusze stylów) są już gotowe w
+	    momencie przyjęcia zapytania przez serwer. Dla odróżnienia od
+	    dynamicznych stron których treść jest generowana dopiero po
+	    otrzymaniu zapytania przez serwer. Statyczne strony są prostsze w
+	    utrzymaniu i zarządzaniu, ale oferują mniejszą funkcjonalność.</p>
+
+	    <p>Najłatwiejszą możliwą sytuacją jest taka w której zewnętrzna
+	    struktura statycznej jest tożsama z wewnętrzną strukturą. W takiej
+	    sytuacji ścieżka z zapytania HTTP jest wykorzystywana jako ścieżka
+	    do pliku na serwerze i plik z pod danej ścieżki odsyłany jest
+	    klientowi w niezmienionej postaci.</p>
+
+	    <h2>Architektura internetu</h2>
+	    <p>W chwili obecnej serwisy internetowe oraz przeglądarki
+	    internetowe oparte są w większości o wszechobecny protokół HTTP. W
+	    tej architekturze przeglądarka internetowa jest klientem a serwis
+	    internetowy jest serwerem. Klient wysyła zapytanie do serwera,
+	    serwer odpowiada, jeśli potrafi. HTTP jest protokołem siódmej
+	    warstwy modelu OSI. Zapytania HTTP transportowane są od klienta do
+	    serwera za pomocą protokołów niższych warstw. Zapytanie HTTP zwykle
+	    trafiają do pakietów TCP. Pakiety trafiają do datagramów IP.
+	    Datagramy trafiają do ramek ETHERNET. Dalej przez infrastrukturę
+	    sieciową do serwera.</p>
+
+	    <p>Działanie protokołu HTTP możemy podejrzeć za pomocą prostego
+	    konsolowego narzędzia <code>ncat</code>. Posłuży nam ono do
+	    wysłania dowolnej treści za pomocą protokołu TCP.</p>
+
+	    <p>Najprostsze zapytanie HTTP składa się z nazwy metody (GET, HEAD,
+	    POST), ścieżki dostępu oraz numeru wersji protokołu. HTTP 1.1 jest
+	    protokołem tekstowym, cała komunikacja odbywa się z pomocą ciągów
+	    znaków ASCII. Uruchamiamy program <code>ncat</code> i wysyłamy
+	    najprostsze zapytanie do mojej strony. Zapytanie kończymy podwójnym
+	    znakiem nowej linii, co spowoduje przesłanie odpowiedzi przez
+	    serwer.</p>
+
+	    <textarea readonly disabled rows="18">
+> ncat mucka.pro 80
+GET / HTTP/1.1
+
+HTTP/1.0 200 OK
+Server: SimpleHTTP/0.6 Python/3.3.5
+Date: Tue, 06 Dec 2016 15:47:59 GMT
+Content-type: text/html
+Content-Length: 144
+Last-Modified: Mon, 28 Nov 2016 08:42:41 GMT
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="refresh" content="0; url=/pl/main.html">
+    </head>
+    <body>
+    </body>
+</html>
+	    </textarea>
+
+	    <p>Zapytanie spowodowało odesłanie odpowiedzi HTTP przez serwer.
+	    Odpowiedź składa się z nagłówka oraz treści zasobu. Nagłówek mówi
+	    dam o rodzaju i długości zasobu. Posiada kod błędu (200 oznacza
+	    brak błędu). W zależności od odprogramowania na serwerze zawiera
+	    także kilka mniej lub bardziej ważnych informacji dotyczących
+	    zasobu. Po nagłówku, odzielone znakiem nowej linii, znajduje się
+	    treść zasobu, ze ścieżki którą podaliśmy w zapytaniu. To tyle jeśli
+	    chodzi o HTTP.</p>
+
+	    <h2>Treść strony</h2>
+
+	    <p>Przeglądarka internetowa wysyłając zapytanie do serwera, w
+	    standardowej sytuacji oczekuje jako odpowiedzi pliku w formacie
+	    html. Plik html zawiera treść strony która zostanie wyświetlona
+	    użytkownikowi. Poniżej szablon przykładowego pliku html.</p>
+
+	    <textarea readonly disabled rows="9">
+<!DOCTYPE html>
+<html>
+    <head>
+    <!-- Nagłówek strony -->
+    </head>
+    <body>
+    <!-- Treść strony -->
+    </body>
+</html>
+	    </textarea>
+
+	    <p>Treść pliku HTML składa się przede wszystkim ze znaczników
+	    znaczników, czyli zdefiniowanych przez standard tekstowych etykiet
+	    zamkniętych w nawiasach ostrokątnych. Znaczniki zazwyczaj używa się
+	    w parach <code>&lt;etykieta&gt; &lt/etykieta&gt;</code> które
+	    definiują początek i koniec danej sekcji, ale są też znaczniki
+	    występujące samodzielnie. W tej materii należy ściśle przestrzegać
+	    standardu języka (obecnie HTML5), ponieważ nie jest od spójny
+	    logicznie. Kiedyś powstał spójny standard, nazwany XHTML ale
+	    obecnie został on porzucony.</p>
+
+	    <p>Plik html składa się z nagłówka i treści oznaczanych znacznikami
+	    <code>head</code> i <code>body</code>. Znaczniki dozwolone wewnątrz
+	    sekcji nagłówka i wewnątrz sekcji treści to dwa osobne zbiory
+	    (niekoniecznie rozłączne).</p>
+
+	    <p>W dalszej części postaram się opisać jak wyglądają pliki HTML
+	    tej strony w wersji aktualnej na moment powstawania tego artykułu.
+	    Nie musi być aktualna wersja w momencie kiedy go czytasz.</p>
+
+	    <p>Pierwszą rzeczą jaką powinno się zdefiniować poprawnie, jest właśnie
+	    nagłówek. Nagłówek niesie ze sobą garść informacji niezbędnych przeglądarce
+	    do poprawnego wyświetlenia treści. W moim nagłówku zdefiniowałem kodowanie
+	    strony <code>UTF-8</code>, tytuł strony, arkusz stylów strony oraz
+	    obszar wyświetlania strony. Arkusz stylów strony jest plikiem w formacie
+	    CSS definiującym graficzne reguły wyświetlania treści. Będzie on opisany
+	    w późniejszym etapie. Obszar wyświetlania strony jest zdefiniowany jako
+	    szerokość urządzenia, która to opcja nie jest domyślną, co pozwala
+	    na poprawne wyświetlanie strony na urządzeniach mobilnych.</p>
+	    
+	    <textarea readonly disabled rows="6">
+<head>
+    <meta charset="UTF-8">
+    <title>mucka.pro - życie pewnej krowy</title>
+    <link rel="stylesheet" type="text/css" href="/static/main.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+	    </textarea>
+
+	    <p>Treść strony została podzielona przeze mnie na trzy elementy,
+	    nagłówek (nie mylić z nagłówkiem pliku html) zawierający logo
+	    strony, pasek wyboru języka i menu wyboru podstrony, sekcje treści
+	    i stopkę.</p>
+
+	    <textarea readonly disabled rows="11">
+<body>
+    <header>
+    <!-- Nagłówek strony: logo, wybór języka, menu główne -->
+    </header>
+    <section>
+    <!-- Właściwa treść strony -->
+    </section>
+    <footer>
+    <!-- Stopka strony -->
+    </footer>
+</body>
+	    </textarea>
+
+	    <p>Dobierając nazwy znaczników ściśle przestrzegałem standardu
+	    HTML5. Tworzenie własnych znaczników jest przewidziane przez HTML5,
+	    ale wymaga użycia skryptu żeby taki znacznik zarejestrować na czas
+	    sesji w przeglądarce. Znaczniki <code>header</code>,
+	    <code>section</code> i <code>footer</code> są znacznikami
+	    porządkującymi bez specjalnej funkcji. Podstawowym organizacyjnym
+	    bez kontekstowym znacznikiem jest znacznik <code>div</code>.</p>
+
+	    <p>Znaczniki mogą przyjmować parametry. Jednym z podstawowych
+	    parametrów jest parametr <code>class</code> którym definiujemy
+	    klasę znacznika. Klasy są wykorzystywane do grupowania znaczników
+	    i nadawania im kontekstu. Kontekst ten jest wykorzystywany w
+	    późniejszym etapie do formatowania treści strony przez
+	    przeglądarkę. Do klas często odwołują się reguły w pliku CSS,
+	    ale o tym później.</p>
+
+	    <p>W nagłówku strony zdefiniowałem logo, jako zwykły tekst,
+	    menu wyboru języka i menu wyboru podstron. Na etapie definiowania
+	    treści strony nie przejmujemy się ich ostatecznym ułożeniem.
+	    Jedyne czym możemy się przejmować to kolejność elementów.</p>
+
+	    <textarea readonly disabled rows="23">
+<header>
+    <div class="topbar">
+        <div class="title">
+            mucka.pro<span id="tagline"> - historia pewnej krowy</span>
+        </div>
+        <div class="langmenu">
+            <div class="lang" id="pl">
+                <a href="/pl/">
+                    PL
+                </a>
+            </div>
+            <!-- Pozostałe języki w identyczny sposób -->
+        </div>
+    </div>
+    <div class="menu">
+        <div class="menuitem">
+            <a href="../news/">
+                Aktualności
+            </a>
+        </div>
+        <!-- Pozostałe elementy menu w identyczny sposób -->
+    </div>
+</header>
+	    </textarea>
+
+	    <p>Najważniejsze z punktu widzenia dokumentu HTML są zależności
+	    zwierania się, między znacznikami. Na przykład znacznik o klasie
+	    <code>topbar</code> zawiera znaczniki o klasach <code>title</code>
+	    i <code>langmenu</code>.  Czym lepiej zaplanujemy zależności między
+	    znacznikami, tym łatwiej będzie nam zapanować w późniejszym etapie
+	    nad ich poprawnym ułożeniem na stronie.</p>
+
+	    <p>Nagłówek jest czymś wspólnym dla wszystkich podstron. Treść
+	    na podstronach się różni, dlatego pominę jej omawianie, nie
+	    ma tam nic technicznie ciekawego w tej chwili. Treść
+	    przykładowej strony poniżej.</p>
+
+	    <textarea readonly disabled rows="3">
+<section>
+    Strona w budowie, zapraszam wkrótce!
+</section>
+	    </textarea>
+
+	    <p>Również w stopce nie znajduję się nic wartego wspomnienia.</p>
+
+	    <textarea readonly disabled rows="3">
+<footer>
+    Copyright © 2016 by Mućka.
+</footer>
+	    </textarea>
+
+	    <p>W ten sposób skonstruowałem przykładową stronę. Nadszedł czas
+	    aby dopasować jej układ.</p>
+
+	    <h2>Układ strony</h2>
+
+	    <p>W dawnych czasach układ strony definiowało się bezpośrednio w
+	    dokumencie HTML. Potem nastał czas kaskadowych arkuszy stylów CSS.
+	    Ta technologia króluje do dzisiaj. Arkusz CSS służy do definiowania
+	    reguł, które określają graficzny układ strony. W arkuszu odwołujemy
+	    się do znaczników HTML po ich nazwach, klasach czy
+	    identyfikatorach. Wewnątrz reguły możemy definiować graficzne
+	    parametry takie jak wysokość, szerokość czy kolor.</p>
+
+	    <p>W ramach tej strony zaprojektowałem jeden arkusz stylów który
+	    opisywał wszystkie istniejące podstrony.  Jest możliwe łączenie
+	    wielu arkuszy stylów w ramach jednej strony HTML. Oczywiście można
+	    również przypisać każdej podstronie własny arkusz stylów,
+	    technologia w tym zakresie nie ogranicza nas w żaden sposób.</p>
+	    
+	    <p>Arkusz stylów definiujemy wewnątrz pliku <code>*.css</code> a
+	    następnie ścieżkę do niego umieszamy w nagłówku strony HTML
+	    używając znacznika <code>link</code>. Arkusz stylów składa się z
+	    dowolnej ilości reguł, które wszystkie wyglądają mniej więcej tak
+	    jak poniżej.</p>
+
+	    <textarea readonly disabled rows="5">
+znacznik#klasa.identyfikator {
+    width: 500;
+    height: 300;
+    color: blue;
+}
+           </textarea>
+
+	   <p>Każda reguła musi odnosić się do konkretnego znacznika, klasy lub
+	   identyfikatora, bądź dowolnej kombinacji tych trzech. Wewnątrz
+	   reguły definiujemy parametry i ich wartości. Definiując parametry
+	   pamiętamy o ścisłym przestrzeganiu wytycznych standardu CSS,
+	   ponieważ jest on niezwykle mało elastyczny. Pamiętamy, że wytyczne
+	   standardu są bardzo luźno interpretowane przez przeglądarki, więc
+	   testując stronę, może się okazać, że wygląda ona zupełnie inaczej w
+	   różnych przeglądarkach. Dodatkowo część standardowych znaczników
+	   posiada zdefiniowane przez standard, bądź przez twórców
+	   przeglądarki, domyślne wartości niektórych parametrów. Należy na to
+	   wszystko niezwykle uważać projektując kaskadowy arkusz stylów.</p>
+
+	   <p>Definiując arkusz powinniśmy zwrócić uwagę, że nasza strona może
+	   być wyświetlana w oknach o różnej szerokości. Stworzenie jednej
+	   wersji układu strony pasującej do wszystkich możliwych szerokości
+	   ekranu, zaczynając od 200px a kończąc powyżej 2000px jest
+	   praktykowane w dzisiejszych czasach. W dawnych czasach, serwer na
+	   podstawie zapytania decydował, jaką wersję strony przesłać
+	   klientowi. W dzisiejszych czasach stosuje się uniwersalne arkusze
+	   CSS, które potrafią dopasować stronę, w zależności od szerokości
+	   okna.</p>
+
+	   <p>Projektowanie naszej strony zaczynamy od najwęższego
+	   przewidywanego rozmiaru okna, załóżmy 200px. Pod takie okno będziemy
+	   definiować nasze domyślne reguły. W późniejszym etapie
+	   przedefiniujemy niektóre reguły na zasadzie wyjątków.</p>
+
+	   <p>Należy wspomnieć również, że duża część reguł związanych ze
+	   znacznikiem aplikuje się pośrednio bądź bezpośrednio na pod
+	   znaczniki będące w sekcji ograniczonej wspomnianym znacznikiem
+	   nadrzędnym. Na przykład definiując rozmiar i styl czcionki dla
+	   znacznika <code>body</code> definiujemy czcionkę dla całej treści
+	   dokumentu.</p>
+
+	    <textarea readonly disabled rows="4">
+body {
+    font-family: "Verdana", sans-serif;
+    font-size: 16px;
+}
+	   </textarea>
+
+        </section>
+        <footer>
+            Copyright © 2016 by Mućka.
+        </footer>
+    </body>
+
+</html> 
